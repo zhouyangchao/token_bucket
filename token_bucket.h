@@ -28,7 +28,7 @@ enum token_bucket_action {
 
 /*
  * thread unsafety*/
-struct token_bucket *token_bucket_init(uint64_t bps,  uint64_t interval, uint32_t scale);
+struct token_bucket *token_bucket_init(uint64_t bps,  uint64_t interval, float scale);
 void token_bucket_destroy(struct token_bucket *tb);
 
 /* add token to bucket
@@ -43,5 +43,14 @@ uint64_t token_bucket_add_tokens(struct token_bucket *tb, uint64_t tokens);
  *     TB_SUCCESS  : get tokens success*/
 enum token_bucket_action 
 token_bucket_get_tokens(struct token_bucket *tb, uint64_t tokens);
+
+/* get tokens from token bucket, return immediately
+ * thread safety
+ * return 
+ *     TB_INVAL : tokens is more than max tokens
+ *     TB_SUCCESS  : get tokens success
+ *     TB_FAILED  : get tokens failed*/
+enum token_bucket_action 
+token_bucket_try_get_tokens(struct token_bucket *tb, uint64_t tokens);
 
 #endif //_TOKEN_BUCKET_H_
