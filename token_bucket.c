@@ -10,6 +10,10 @@
 #define TB_FREE(s) free(s)
 #endif
 
+#ifndef TB_USLEEP
+#define TB_USLEEP(us) usleep(us)
+#endif
+
 /* create a token bucket
  * param bps : the bytes/second of the token bucket
  * param interval : the interval(ms) to add tokens
@@ -76,7 +80,7 @@ token_bucket_get_tokens(struct token_bucket *tb, uint64_t tokens)
 		old_tokens = tb->cur_tokens;
 		while (unlikely(old_tokens < tokens)) {
 			/*sleep half of interval to wait new tokens*/
-			usleep(tb->interval * 1000 / 2);
+			TB_USLEEP(tb->interval * 1000 / 2);
 			old_tokens = tb->cur_tokens;
 		}
 		new_tokens = old_tokens - tokens;
