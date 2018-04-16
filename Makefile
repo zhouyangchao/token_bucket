@@ -5,7 +5,8 @@ THREADS_CONFIG = -DTB_PRODUCER=2 -DTB_CONSUMER=$(CPUS)
 DEBUG_CONFIG = -DTB_PRODUCER_DEBUG=0 -DTB_CONSUMER_DEBUG=1
 
 CC = gcc
-CFLAGS += --std=gnu11 -Wall -Werror -O3 -pthread $(COMMON_CONFIG) $(THREADS_CONFIG) $(DEBUG_CONFIG)
+CFLAGS += --std=gnu11 -Wall -Wextra -Wno-unused-parameter -Werror -O3
+CFLAGS += -pthread $(COMMON_CONFIG) $(THREADS_CONFIG) $(DEBUG_CONFIG)
 HEADERS = $(wildcard *.h)
 SRCS = $(wildcard *.c)
 
